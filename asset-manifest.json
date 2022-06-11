@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/to-do-drag-n-drop-ts/static/css/main.af671259.css",
+    "main.js": "/to-do-drag-n-drop-ts/static/js/main.b7de38e2.js",
+    "index.html": "/to-do-drag-n-drop-ts/index.html",
+    "main.af671259.css.map": "/to-do-drag-n-drop-ts/static/css/main.af671259.css.map",
+    "main.b7de38e2.js.map": "/to-do-drag-n-drop-ts/static/js/main.b7de38e2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.af671259.css",
+    "static/js/main.b7de38e2.js"
+  ]
+}
