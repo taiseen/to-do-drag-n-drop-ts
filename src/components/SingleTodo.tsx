@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import { MdDone } from 'react-icons/md';
 import { Todo } from '../model';
 
 
 interface Props {
+  index: number;
   todo: Todo;
-  allTodo: Todo[];
   setAllTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
+  // setCompletedTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 
-const SingleTodo: React.FC<Props> = ({ todo, allTodo, setAllTodo }) => {
+const SingleTodo: React.FC<Props> = ({ index, todo, setAllTodo }) => {
 
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -19,19 +21,30 @@ const SingleTodo: React.FC<Props> = ({ todo, allTodo, setAllTodo }) => {
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
 
-  const handleEdit = () => {
+  const handleEdit = (id: number) => {
     if (!editOption && !todo.isDone) {
       // just open edit option
       setEditOption(pre => !pre);
+    } else {
+      setEditOption(pre => !pre);
+      // update todo
+      setAllTodo(pre => (
+        pre.map(todo => todo.id === id
+          ? { ...todo, todo: editTodo }
+          : todo
+        )
+      ));
     }
   }
 
 
   // delete || remove todo from list || db
   const handleDelete = (id: number) => {
-    setAllTodo(pre => (
-      pre.filter(todo => todo.id !== id)
-    ));
+    if (window.confirm('Are you sure want to delete this task?')) {
+      setAllTodo(pre => (
+        pre.filter(todo => todo.id !== id)
+      ));
+    }
   }
 
 
@@ -61,33 +74,44 @@ const SingleTodo: React.FC<Props> = ({ todo, allTodo, setAllTodo }) => {
     setEditOption(pre => !pre);
   }
 
-  
+
   useEffect(() => inputRef.current?.focus(), [editOption]);
 
 
   return (
-    <form className='singleTodo' onSubmit={(e) => handleSubmitTodo(e, todo.id)}>
-
+    <Draggable draggableId={todo.id.toString()} index={index}>
       {
-        editOption
-          ? <input
-            className='text'
-            ref={inputRef}
-            value={editTodo}
-            onChange={(e) => setEditTodo(e.target.value)}
-          />
-          : todo.isDone
-            ? <s className='text'>{todo.todo}</s>
-            : <span className='text'>{todo.todo}</span>
+        (provided) => (
+          <form className='singleTodo' onSubmit={(e) => handleSubmitTodo(e, todo.id)}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+          >
+
+            {
+              editOption
+                ? <input
+                  className='text'
+                  ref={inputRef}
+                  value={editTodo}
+                  style={{ color: '#333' }}
+                  onChange={(e) => setEditTodo(e.target.value)}
+                />
+                : todo.isDone
+                  ? <s className='text'>{todo.todo}</s>
+                  : <span className='text'>{todo.todo}</span>
+            }
+
+            <div className='icons'>
+              <AiFillEdit className='icon' onClick={() => handleEdit(todo.id)} />
+              <AiFillDelete className='icon' onClick={() => handleDelete(todo.id)} />
+              <MdDone className='icon' onClick={() => handleDone(todo.id)} />
+            </div>
+
+          </form>
+        )
       }
-
-      <div className='icons'>
-        <AiFillEdit className='icon' onClick={handleEdit} />
-        <AiFillDelete className='icon' onClick={() => handleDelete(todo.id)} />
-        <MdDone className='icon' onClick={() => handleDone(todo.id)} />
-      </div>
-
-    </form>
+    </Draggable>
   )
 }
 

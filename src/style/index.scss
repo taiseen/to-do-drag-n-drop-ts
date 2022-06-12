@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600&display=swap');
+
+* {
+    margin     : 0;
+    padding    : 0;
+    border     : 0;
+    outline    : 0;
+    box-sizing : border-box;
+    list-style : none;
+    transition : all .1s ease;
+    font-family: 'Nunito', sans-serif;
+
+    &::selection {
+        background-color: rgb(250, 200, 120);
+    }
+}
+
+
+:root {
+    --bgColor      : #444;
+    --darkBgColor  : #333;
+    --white        : #ddd;
+    --hoverColor   : #555;
+    --activeTask   : #508c59;
+    --completedTask: #905e5e;
+    --delete       : tomato;
+    --ok           : green;
+    --edit         : orange;
+}
+
+
+.app {
+    width           : 100vw;
+    height          : 100vh;
+    display         : flex;
+    flex-direction  : column;
+    align-items     : center;
+    background-color: var(--bgColor);
+
+    .heading {
+        margin    : 30px 0;
+        text-align: center;
+        font-size : 40px;
+        color     : var(--white);
+        z-index   : 1;
+    }
+
+    .info {
+        height         : 60%;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        font-size      : 48px;
+    }
+}
+
+
+// User Input Field Styling for <InputField /> component 
+.inputForm {
+    width      : 95%;
+    position   : relative;
+    display    : flex;
+    align-items: center;
+
+    .inputBox {
+        width        : 100%;
+        border-radius: 5px;
+        padding      : 15px;
+        font-size    : 25px;
+        box-shadow   : inset 0 0 2px black;
+        color        : var(--darkBgColor);
+
+        &:focus {
+            box-shadow: 0 0 10px 1000px rgba(0, 0, 0, .5);
+        }
+    }
+
+    .submit {
+        background-color: var(--bgColor);
+        color           : var(--white);
+        border-radius   : 5px;
+        position        : absolute;
+        font-size       : 20px;
+        width           : 80px;
+        height          : 50px;
+        margin          : 8px;
+        padding         : 0 10px;
+        right           : 0px;
+        text-align      : center;
+        cursor          : pointer;
+        transition      : .2s all;
+        box-shadow      : 0 0 10px rgba(0, 0, 0, .5);
+
+        &:hover {
+            background-color: var(--hoverColor);
+        }
+
+        &:active {
+            transform : scale(.8);
+            box-shadow: 0 0 5px black;
+        }
+    }
+}
+
+
+// Single info Styling for <SingleTodo /> component
+.singleTodo {
+    background-color: var(--darkBgColor);
+    width           : 100%;
+    margin-top      : 15px;
+    padding         : 10px;
+    border-radius   : 3px;
+    display         : flex;
+    align-items     : center;
+    transition      : .2s;
+
+    &:hover {
+        box-shadow: 0 0 5px black;
+        transform : scale(1.01);
+    }
+
+    .text {
+        flex         : 1;
+        font-size    : 20px;
+        padding      : 5px;
+        border-radius: 3px;
+        color        : var(--white);
+    }
+
+    .icons {
+        display    : flex;
+        align-items: center;
+
+        .icon {
+            margin-left: 10px;
+            font-size  : 25px;
+            cursor     : pointer;
+            color      : var(--white);
+
+            &:nth-child(1):hover {
+                color: var(--edit);
+            }
+
+            &:nth-child(2):hover {
+                color: var(--delete);
+            }
+
+            &:nth-child(3):hover {
+                color: var(--ok);
+            }
+        }
+    }
+}
+
+
+
+.container {
+    display        : flex;
+    flex-wrap      : wrap;
+    justify-content: space-between;
+    width          : 95%;
+    margin-top     : 30px;
+    gap            : 10px;
+
+    .allTodo {
+        flex            : 1 1 47.5%;
+        padding         : 15px;
+        display         : flex;
+        flex-wrap       : wrap;
+        flex-direction  : column;
+        align-items     : flex-start;
+        justify-content : space-evenly;
+        margin          : 0 10px;
+        border-radius   : 5px;
+        background-color: var(--activeTask);
+
+        .todoHeading {
+            width     : 100%;
+            font-size : 24px;
+            text-align: center;
+        }
+    }
+
+    .remove {
+        background-color: var(--completedTask);
+    }
+}
+
+
+
+
+
+// Mobile Responsiveness...
+@media (max-width : 1200px) {
+    .singleTodo {
+        // width: 40%;
+    }
+}
+
+
+@media (max-width : 800px) {
+    .heading {
+        margin   : 15px 0;
+        font-size: 35px;
+    }
+
+    .container {
+        gap: 20px;
+    }
+}
+
+
+@media (max-width : 700px) {
+    .inputBox {
+        /* width: 95%; */
+    }
+
+    .allTodo {
+        // width     : 100%;
+        // flex-basis: 100%;
+    }
+
+    .singleTodo {
+        // width: 100%;
+    }
+
+
+}
