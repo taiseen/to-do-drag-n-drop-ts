@@ -17,15 +17,17 @@
 
 
 :root {
-    --bgColor      : #444;
-    --darkBgColor  : #333;
-    --white        : #ddd;
-    --hoverColor   : #555;
-    --activeTask   : #508c59;
-    --completedTask: #905e5e;
-    --delete       : tomato;
-    --ok           : green;
-    --edit         : orange;
+    --bgColor           : #444;
+    --darkBgColor       : #333;
+    --white             : #ddd;
+    --hoverColor        : #555;
+    --activeTask        : #508c59;
+    --activeTaskLight   : #6bc87b;
+    --completedTask     : #905e5e;
+    --completedTaskLight: #bd7c7c;
+    --delete            : tomato;
+    --ok                : green;
+    --edit              : orange;
 }
 
 
@@ -103,7 +105,12 @@
 }
 
 
+
 // Single info Styling for <SingleTodo /> component
+.draggingTodo {
+    box-shadow: 0 1px 15px #333;
+}
+
 .singleTodo {
     background-color: var(--darkBgColor);
     width           : 100%;
@@ -115,7 +122,7 @@
     transition      : .2s;
 
     &:hover {
-        box-shadow: 0 0 5px black;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
         transform : scale(1.01);
     }
 
@@ -155,24 +162,22 @@
 
 
 .container {
-    display        : flex;
-    flex-wrap      : wrap;
-    justify-content: space-between;
-    width          : 95%;
-    margin-top     : 30px;
-    gap            : 10px;
+    display           : flex;
+    flex-wrap         : wrap;
+    justify-content   : space-between;
+    width             : 95%;
+    margin-top        : 30px;
 
     .allTodo {
-        flex            : 1 1 47.5%;
-        padding         : 15px;
-        display         : flex;
-        flex-wrap       : wrap;
-        flex-direction  : column;
-        align-items     : flex-start;
-        justify-content : space-evenly;
-        margin          : 0 10px;
-        border-radius   : 5px;
-        background-color: var(--activeTask);
+        width              : 49%;
+        padding            : 15px;
+        display            : flex;
+        flex-wrap          : wrap;
+        flex-direction     : column;
+        align-items        : flex-start;
+        justify-content    : space-evenly;
+        border-radius      : 5px;
+        background-color   : var(--activeTask);
 
         .todoHeading {
             width     : 100%;
@@ -184,6 +189,14 @@
     .remove {
         background-color: var(--completedTask);
     }
+
+    .dragActive {
+        background-color: var(--activeTaskLight);
+    }
+
+    .dragComplete {
+        background-color: var(--completedTaskLight);
+    }
 }
 
 
@@ -192,8 +205,12 @@
 
 // Mobile Responsiveness...
 @media (max-width : 1200px) {
-    .singleTodo {
-        // width: 40%;
+    .container {
+        gap: 20px;
+
+        .allTodo {
+            width: 100%;
+        }
     }
 }
 
@@ -206,23 +223,9 @@
 
     .container {
         gap: 20px;
+
+        .allTodo {
+            width: 100%;
+        }
     }
-}
-
-
-@media (max-width : 700px) {
-    .inputBox {
-        /* width: 95%; */
-    }
-
-    .allTodo {
-        // width     : 100%;
-        // flex-basis: 100%;
-    }
-
-    .singleTodo {
-        // width: 100%;
-    }
-
-
 }

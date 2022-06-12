@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 interface Props {
     todo: string;
@@ -10,11 +10,18 @@ const InputField: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
+    
     const taskSubmit = (e: React.FormEvent) => {
+        
         handleAdd(e);
+        
         inputRef.current?.blur();
-        inputRef.current?.focus();
+        
+        // inputRef.current?.focus(); 
+        // after enter focus again into Input Box 
     }
+
+
 
     return (
         <form className="inputForm" onSubmit={taskSubmit}>

@@ -26,27 +26,41 @@ const App: React.FC = () => {
     }
   }
 
+
+
   const onDragEnd = (result: DropResult) => {
-    console.log(result);
+
+    // console.log(result);
 
     const { destination, source } = result;
 
-    if (!destination) return;
+    let add,
+      active = allTodo,
+      complete = completedTodo;
 
-    if (destination.droppableId === source.droppableId &&
-      destination.index === source.index) return;
 
+    if (!destination) return; // if destination is null then just exit() from this function...
 
-    let add, active = allTodo, complete = completedTodo;
+    if (
+      destination.index === source.index &&
+      destination.droppableId === source.droppableId
+    ) return;
 
 
     if (source.droppableId === 'todoList') {
+      // get this single item... & store into add variable for temporary moment
       add = active[source.index]
-      active.splice(source.index, 1);
+
+      // remove this item, from "allTodo" array
+      setAllTodo(pre => pre.splice(source.index, 1))
     } else {
-      add = active[source.index]
-      complete.splice(source.index, 1);
+      // get this single item... & store into add variable for temporary moment
+      add = complete[source.index]
+
+      // remove this item, from "completedTodo" array
+      setCompletedTodo(pre => pre.splice(source.index, 1))
     }
+
 
     if (destination.droppableId === 'todoList') {
       active.splice(destination.index, 0, add);
@@ -54,9 +68,11 @@ const App: React.FC = () => {
       complete.splice(destination.index, 0, add);
     }
 
-    setCompletedTodo(complete);
-    setAllTodo(active);
+
+    setCompletedTodo(complete); // update completed array
+    setAllTodo(active); // update allTodo array
   }
+
 
 
   return (

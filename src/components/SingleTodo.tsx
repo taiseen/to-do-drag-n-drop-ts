@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
+import { useEffect, useRef, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import { MdDone } from 'react-icons/md';
 import { Todo } from '../model';
 
@@ -9,7 +9,6 @@ interface Props {
   index: number;
   todo: Todo;
   setAllTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
-  // setCompletedTodo: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 
@@ -23,17 +22,14 @@ const SingleTodo: React.FC<Props> = ({ index, todo, setAllTodo }) => {
 
   const handleEdit = (id: number) => {
     if (!editOption && !todo.isDone) {
-      // just open edit option
-      setEditOption(pre => !pre);
-    } else {
-      setEditOption(pre => !pre);
-      // update todo
-      setAllTodo(pre => (
-        pre.map(todo => todo.id === id
-          ? { ...todo, todo: editTodo }
-          : todo
-        )
-      ));
+
+      setEditOption(pre => !pre); // edit option open/close
+
+    } else if (!todo.isDone) {
+
+      setEditOption(pre => !pre); // edit option open/close
+
+      setAllTodo(pre => (pre.map(todo => todo.id === id ? { ...todo, todo: editTodo } : todo))); // update todo
     }
   }
 
@@ -81,11 +77,13 @@ const SingleTodo: React.FC<Props> = ({ index, todo, setAllTodo }) => {
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
       {
-        (provided) => (
-          <form className='singleTodo' onSubmit={(e) => handleSubmitTodo(e, todo.id)}
+        (provided, snapshot) => (
+          <form
+            ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            ref={provided.innerRef}
+            onSubmit={(e) => handleSubmitTodo(e, todo.id)}
+            className={`singleTodo ${snapshot.isDragging && 'draggingTodo'}`}
           >
 
             {
@@ -104,8 +102,8 @@ const SingleTodo: React.FC<Props> = ({ index, todo, setAllTodo }) => {
 
             <div className='icons'>
               <AiFillEdit className='icon' onClick={() => handleEdit(todo.id)} />
-              <AiFillDelete className='icon' onClick={() => handleDelete(todo.id)} />
               <MdDone className='icon' onClick={() => handleDone(todo.id)} />
+              <AiFillDelete className='icon' onClick={() => handleDelete(todo.id)} />
             </div>
 
           </form>
